@@ -1,0 +1,18 @@
+<a href="/groups"><button>Dashboard</button></a><br>
+<h2><%= @g.name %></h2>
+<% if @g.users.include?(current_user) %>
+    <a href="/joins/<%= @g.id %>" data-method="delete"><button>Leave Group</button></a><br>
+<% else %>
+    <form action="/joins/<%= @g.id %>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type='submit' value='Join'>
+    </form>
+<%end%>
+<br>
+<%= @g.description %>
+<h3>Created By</h3>
+<%= @g.user.first_name %>
+<h3>Members</h3>
+<% @g.users.each do |member| %>
+    <%= member.first_name %><br>
+<% end %>

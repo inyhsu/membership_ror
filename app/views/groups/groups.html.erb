@@ -1,0 +1,30 @@
+<p> Hi <%= current_user.first_name %> </p>
+<div class="row">
+    <div class="col-md-6">
+        <form action="/groups" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <div class="form-group">
+                <label for="group[name]">Org Name</label>
+                <input class="form-control" type="text" name="group[name]">
+                <label for="group[description]">Description</label>
+                <input class="form-control" type="text" name="group[description]">
+                <br>
+               <input type='submit' value='Create' class="btn btn-primary">
+            <div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <p>Here are the organiztions you may join:<p>
+
+        <% @groups.each do |g|%>
+            <div class="group">
+                <p>Name:<a href="groups/<%= g.id %>"><%= g.name %></a></p>
+                <p>Member:<%= g.users.count %> </p>
+                <p>Description:<%= g.description %></p>
+                <% if g.user == current_user %>
+                    <a href="/groups/<%= g.id %>" data-method="delete"><button>Delete</button></a>
+                <% end %>
+            </div>
+        <%end%>
+    </div>
+</div>
